@@ -1,0 +1,43 @@
+!namelist
+!############################# Change Log ##################################
+! 2.3.1.1
+!
+! 010127 MJB REVU_IN ##
+!            Corrected pressure level options for IPLEVEL. ##
+! 001014 MJB REVU_IN ##
+!            Added namelist parameters REVPREF,IPANEL, LANDMARK and
+!            COLORS. ##
+!
+!###########################################################################
+
+! RAMS REVU namelist example for dumping RAMS output. The dump format can be
+! configured by the user by editing dumpout.f90.
+
+ $CONTROL
+ 
+  ANPREF='out/prevBR-A-',   ! Input filename prefix
+
+  REVPREF='./',        ! Output filename prefix
+  
+  ANATYPE='DUMP',      ! Type of run
+
+  HEAD1='',            ! Header line
+
+  IGRID(1)=1,          ! Grid(s)
+  
+  IZTRAN(1)=1,         ! If horizontal slab
+                       !   1= terrain-following surface
+                       !   2= interpolate to Cartesian surface
+                       !   3= interpolate to pressure surface
+  
+                         ! Frame specification
+  TVAR(1)='/F/1:600:1/', !   time
+  ZVAR(1)='/F/1:41:1/',  !   z coord
+  YVAR(1)='/V/7:109:1/', !   y coord
+  XVAR(1)='/H/7:109:1/', !   x coord
+
+!Variaveis 2D
+ CFRAME_A(1)='/precip/',       !precipitacao conv+resolv acumulada
+ CFRAME_A(2)='/sst/',       
+
+ $END

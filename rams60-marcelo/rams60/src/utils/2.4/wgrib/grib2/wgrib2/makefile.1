@@ -1,0 +1,38 @@
+#
+# this makefile is for gnu-make on a linux box
+# wgrib2 rerequires g2c (NCEP C grib2), jasper (jpeg), z and png libraries
+#
+#  REQUIRES GNU make
+
+sh=/bin/sh
+
+g2=../g2clib-1.0.2
+all:=$(patsubst %.c,%.o,$(wildcard *.c))
+code:=$(filter-out fnlist.o,$(all))
+o=$(wildcard *.o)
+h:=grb2.h  wgrib2.h fnlist.h
+options=$(wildcard [A-Z]*.c)
+
+# CFLAGS=-I ${g2} -O2 -Wall
+CFLAGS=-I ${g2} -O2 -Wall -ffast-math -funroll-loops
+LDFLAGS=-L ${g2} -lg2c -L ../jasper-1.700.5/src/libjasper/.libs -ljasper -L /usr/lib  -lpng -lz -lm
+CC=gcc
+
+wgrib2: $h ${all}
+	${CC} -o wgrib2 ${CFLAGS} ${all} ${LDFLAGS}
+
+fnlist.c:	${options}
+	./function.sh 
+
+fnlist.h:	${options}
+	./function.sh
+
+fast:	${code}
+	touch fnlist.o fnlist.c fnlist.h
+	${CC} -o wgrib2 ${CFLAGS} ${all} ${LDFLAGS}
+
+Help.o:	Help.c wgrib2.h
+	${CC} -c ${CFLAGS} Help.c
+
+clean:
+	rm ${o}

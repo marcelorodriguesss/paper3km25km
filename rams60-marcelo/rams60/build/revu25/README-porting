@@ -1,0 +1,11 @@
+                   REVU v2.5 - December 2004
+                   
+
+                     Porting instructions
+                     --------------------
+
+If you are reading this chances are that your machine does not have its own section
+in the include.mk files. Following are the considerations for porting REVU to a 
+different machine type....
+
+TO BE COMPLETED...

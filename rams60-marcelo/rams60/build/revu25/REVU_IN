@@ -1,0 +1,79 @@
+!############################################################### 
+!# Copyright (C)  1995 - All Rights Reserved 
+!# Regional Atmospheric Modelling System - RAMS 
+!############################################################### 
+
+!############################################################### 
+!# RAMS REVU namelist example for vis5d file creation from RAMS
+!# model output.
+!############################################################### 
+
+ $CONTROL
+                       !   Prefix for the file names
+  ANPREF='/home/tremback/tests/marty2/anal/uh3-A-',
+  
+  ANATYPE='GRADS',       ! Type of run
+  ANATYPE='GRIB',       ! Type of run
+  ANATYPE='SPACE',       ! Type of run
+
+  HEAD1='',            ! top header line (not used)
+  HEAD2='',            ! 2nd header line (not used)
+
+  IGRID=1,             ! Grid number to plot
+                       !  0 for all grids, -ve for abs(igrid) and finer
+     
+  IZTRAN=1,            ! If horizontal slab
+                       !   1=terrain-following surface
+                       !   2=interpolate to Cartesian surface   
+                       !   3=interpolate to pressure surface   
+  IPLEVEL=850,         ! If pressure surface, pressure level in mb (not used)
+                       !   Level must be one of the mandatory levels:
+                       !   1000,925,850,700,600,500,400,300,200,100
+  MAPFILL=0,           ! Fill map? 0: no, 1: yes, -1: no map (not used)
+  IPLTINFO=1,          ! Plot information table? 0: no, 1: yes (not used)
+
+!  TVAR = '/F/1:1:1/',  ! Time specification (beg:end:interval)
+!  ZVAR = '/F/2:2:2/',  !   +ve nos count from lower sw cnr at the
+!  YVAR = '/V/0:0:1/',!   beg of run, -ve nos count from the ends
+!  XVAR = '/H/0:0:1/',!   and 0's go to the ends
+
+  TVAR = '/F/1:1:1/',  ! Time specification (beg:end:interval)
+  ZVAR = '/V/0:0:1/',  !   +ve nos count from lower sw cnr at the
+  YVAR = '/F/12:12:1/',!   beg of run, -ve nos count from the ends
+  XVAR = '/H/0:0:1/',!   and 0's go to the ends
+
+                       ! Parameters (this line is required by the run scripts)
+  CFRAME_A(1)='/u/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(2)='/w/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(3)='/theta/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(4)='/press/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(1)='/u/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(1)='/u/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(1)='/u/c/0./0./0./m6/cyan/yellow/',
+!  CFRAME_A(2)='/theta/',           ! v component wind speed
+!  CFRAME_A(3)='/w_avg/',           ! v component wind speed
+!  CFRAME_A(4)='/tempk/',       ! temperature
+!  CFRAME_A(5)='/relhum_frac/',           ! u component wind speed
+!  CFRAME_A(6)='/press/',           ! vertical wind speed
+!  CFRAME_A(7)='/pbl_ht/',      ! dew point
+!  CFRAME_A(8)='/sens_flux/',       ! wind speed
+!  CFRAME_A(9)='/topo/',   ! wind direction
+
+ $END
+
+ $GLL
+      
+  IGRIDLL=1,    ! = 0 specifies the size and resolution of the lat-lon grid with
+                !     the following namelist varaibles
+                ! = 1 finds max size lat-lon grid that will fit within RAMS grid
+                ! = 2 finds min size lat-lon grid that the RAMS grid will fit inside
+                
+  GLLDLLAT=1., ! latitude grid point spacing
+  GLLDLLON=1., ! longitude grid point spacing
+  GLLWLON=-66., ! western edge of grid
+  GLLELON=-37., ! eastern edge of grid
+  GLLSLAT=-37.,  ! southern edge of grid
+  GLLNLAT=-15.,  ! norhtern edge of grid
+
+ $END
+

@@ -1,0 +1,53 @@
+#Makefile Make.utils
+############################## Change Log ##################################
+
+############################################################################
+
+# Include definitions (if this does not work, try using gnu make or copy the
+# contents of the file include.mk here).
+
+include ../paths.mk
+include ../include.mk.opt
+
+# Compiler commands.
+
+INCLUDES   = -I$(UTILS_INCS) $(PAR_INCS) -I$(HDF5_INCS)
+F_COMMAND  = $(F_COMP) -c $(F_OPTS) $(INCLUDES)
+C_COMMAND  = $(C_COMP) -c $(C_OPTS) -D$(CMACH) $(INCLUDES) \
+               $(PAR_DEFS) $(HDF5_DEFS)
+
+include ../../rules.mk
+
+# Define archive names.
+
+BASE=libutils
+ARC=./libutils-$(UTILS_VERSION)-opt.a
+
+# Define objects.
+
+include ./objects.mk
+
+
+# Define targets.
+
+all:  $(ARC)
+	@echo ""
+	@echo Finished building === $(ARC)
+	@echo ""
+
+$(ARC): $(OBJ)
+
+FORCE:
+
+check: FORCE
+	@echo ""
+	check
+
+clean:
+	@echo ""
+	rm -f $(ARC) *.o *.mod
+	@echo ""
+
+# Include dependencies.
+
+#include depend.mk

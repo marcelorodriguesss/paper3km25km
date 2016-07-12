@@ -1,0 +1,96 @@
+pre-release  1/2004: Variable names now appear on the inventory. Ok, only 1% of the GRIB names have 
+                been typed in and I plan to revise this code.
+pre-release  2/2004: Levels now work. Ok some levels may need polishing but it works. Inventory of 
+                 sample eta file lacks grid information but is usable.
+pre-release  9/2004: Jaakko Hyvätti added the "gribtab" code
+pre-release  8/2005: extraction of grib data works
+v 0.1        9/2005: alpha release
+v 0.1.1  12/15/2005  added scan flags for various grids, fixed some scan code,
+             malloced a large array that caused a seg fault if stack was too small
+v0.1.1a  4/28/2006 fix for lambert2ll Naoya Suda -  Thanks, remove some debug statements
+v0.1.1b  5/4/2006 gaussian grid Sec3.c, grb2.h, rename nxny() to get_nxny() better grid output
+v0.1.1c  5/23/2006 added -processid option (ex which fcst model)
+         5/24/2006 added -range option for partial http transfers
+v0.1.1.d 5/31/2006 change in -grid .. location of print nl
+v0.1.1.e 6/2006 some time and level upgrades
+v0.1.2   6/2006 -text now prints "nx ny" rather than "ndata 1", fixed binary/text output of WE:NS files
+         7/2006   added the gaussian/polar/merc projections, make various FILE.c routines reentrant
+         7/2006   added more packing types
+	 7/2006   -flush -> flush buffers for -lola lola
+	 8/2006   -del renamed to -colon, modified read_inventory and write "rec_no:location"
+		  routines so that -colon , would work .. make comma seperated files
+		  added info about spherical harmonics
+		  moved PackVals into packing, triggered by verbose mode
+		  better info about various Gaussian and lat-lon grids
+		  decided to get critical values by code_table_X_Y(sec) and flag_table_X_Y(sec) calls
+		  changed (projection)2ll calls to use sec rather than gdas
+		  changed uint to unsigned int .. gcc extension
+		  fixed -lola  bug report from D. Duncalf
+		  added -no_append -no_flush, renamed -nof77 to -no_f77 to be consistent with new names
+v0.1.3	 9/2006   added -vt and -VT verf time
+		  added warning to bad lat-lon grid
+		  better testing for lat lon values
+		  mod for AIX compilation
+v0.1.4   9/2006   fixed problem with decoding of fields with bitmaps
+v0.1.4a		  added a test for failed memory allocation
+		  change to makefile for people without . on their path (suggested by Kristian Nilssen)
+	 9/2006   change for Windows geo.c allocate memory explicitly
+                         closest() needs to be made faster
+v0.1.4b  9/2006   fixed comment for f_order, default order is we:sn not we:ns
+		  altered text_fmt to change format in init stage
+                  added -verf which is a macro like -s but uses -vt rather than -t
+	10/2006   f_lola, f_lat can take negative longitudes
+v0.1.4c	10/2006   made f_lola much faster
+	10/2006   f_lola uses append flag
+	10/2006   grid type stubs,
+v0.1.4d 11/2006   add order we:ns, add error check for lat-lon with -order != we:sn
+		  fix some minor scan code bugs
+	11/2006   text_format, text_col and header are used by -lola with text option
+                  added the -is -not options
+v0.1.4e	11/2006   fixed bug in un-scanning code: WE|EW:SN, (we:ns and we:sn were ok)
+		  added code for complex packing with spatial diff. undefined values
+		  added -match -not and -last
+		  upgraded g2clib 1.0.4
+		  -f77 and -no_f77 are renamed to -header and -no_header, last name change, promise
+		  change to the "main" makefile g2clib-1.0.2 -> g2clib-1.0.4
+	12/2006   added flag_table_3.5/3.9/3.10
+	12/2006   modified -t and -vt to produce datecode in grads format when -v2 used
+v0.1.4f 1/2007    Many mods from Manfred Schwarb, remove wrtieee_header, libg2c -> libgrib2c,
+                  error checks for thinned grids
+                  error check on verftime 
+                  many cleanup patches form M. Schwarb - no effect on code operation
+                  better thinned grid support .. in lat-lon grids
+		  uint8 fixed for numbers > 2 GB (ok, if I had 2GB grib record, I could check the fix)
+		  scan of spectral fields changed to unknown, scan handles some thinned grids
+		  ilat works with thinned grids, ijlat doesn't
+                  fixed Level.c () m under ground, removed factor of 1/100.  found by Caser Tejeda Hernandez
+		  binary files written by -Lola now have header support
+		  many patches by M Schwarb (31 for this release)!
+v0.1.4gbeta 1/2007    Manfred Schwarb wrote program to download tables from the web documentation.
+                  The code writes a code fragment (body of a switch statement) which is then
+                  included by the code.
+		    code_table0.dat    CodeTable_1.3.dat  CodeTable_3.1.dat  ncep_tableC.dat
+		    CodeTable_1.2.dat  CodeTable_1.4.dat  gribtab.dat
+v0.1.4g 2/2007    -help (string) is now case insensitive, -ens for ensemble info, -s includes -ens, aliases,
+
+v0.1.4h 2/2007     more tables, process is now an alias
+v0.1.5 3/2007      updated ftime so to handle product definition template 4.8 better (still has rough points)
+		   replace exit() with fatal_error
+		   moved #define MATCH to makefile
+                   add netcdf, thanks Kristian Nilssen
+		   added code table 4.10
+		   added ensemble info to -verf
+v0.1.5a 4/2007     Netcdf conversion to time fixed, a local-UTC conversion problem
+v0.1.5b 4/2007     Netcdf module update: multiple times allowed, by Sergey Varlamov
+                   cname - multiple gribtable support, -tigge for modified TIGGE names
+                   Help: output format change
+		   some more ensemble support: derived products, pdt=12, N_ens,
+v0.1.5c 6/2007     updated Netcdf.c  by Sergey Varlamov
+	7/2007     modified grib2/makefile and grib2/wgrib2/makefile (fixed clean)
+        8/2007     update to makefile -l netcdf -> -lnetcdf (S. Varlamov)
+                   netcdf: update format, more metadata (S. Varamov)
+                   Sec3 - mercator grid had wrong variable dimension location (Boi Vuong)
+                   Support for grid 204, some other minor grids added
+		   API for closest/closest_init made more general for future changes
+                   modified makefiles to be easier to change to pre-compiled libraries
+v0.1.5d 9/2007     changed to new version of g2clib (1.0.5), updated makefiles,minor netcdf changes 

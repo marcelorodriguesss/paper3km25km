@@ -1,0 +1,36 @@
+
+01-Jan-2001
+  Complete new version based on NCAR Graphics and no xgks.
+  Bill Thorson
+
+Known bugs
+
+  * Zooming is not maintained.  Everything makes is go back to
+    non-zoomed.
+
+      FIXED!  BPT 26-Jan-2001  Problem in iplt.f90
+
+  * Default contours does not load defaults.
+
+      FIXED! (er,ah, maybe)  BPT 26-Jan-2001  Problem in def_parse.f90
+
+  * Re-drawing
+      Window needs redrawing after any slight expose events.
+
+      Depends a little on which window manager.
+
+  * Switching
+      X-Y any --> X-Y any - OK
+      X-Y any --> X-Y any - OK
+      X-Y any --> X-Z     - OK
+      X-Y any --> Y-Z     - OK
+      X-Z any --> Y-Z     - OK
+      Y-Z any --> X-Z     - problem, gets wrong Y location
+
+  * Zooming non-square window
+      height > width -- selecting above of gks frame - OK
+      height > width -- selecting below of gks frame - OK
+      height < width -- selecting left  of gks frame - doesn't work right
+      height < width -- selecting right of gks frame - OK
+
+

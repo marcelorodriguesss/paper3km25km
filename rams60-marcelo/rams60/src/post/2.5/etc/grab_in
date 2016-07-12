@@ -1,0 +1,8 @@
+1
+# some test data (! and # indicate comments)
+! st id   lat         lon        elev   itype
+    1  40.79388889 -73.10166667   10.    1      ! point data at 10m AGL
+    2  41.07305556 -71.92333333   10.    1
+    3  41.07305556 -71.92333333   0.     2      ! profile data
+    4  40.77916667 -73.88000000   500.   1      ! point data at 500m AGL
+    5  41.62555556 -73.88194444   10.    1

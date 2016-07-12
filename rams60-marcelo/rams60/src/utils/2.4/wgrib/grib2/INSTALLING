@@ -1,0 +1,18 @@
+                                           INSTALLING
+
+On a bog-standard linux box, type "make" in the grib2 directory.  If all goes well, you
+will get the wgrib2 program in wgrib2/wgrib2.  If you have problems with the netcdf, type
+"make -f makefile_no_netcdf".
+
+
+Note, "make" programs are not standard.  My makefiles assume that you are using the GNU make.
+The various compile options have been hardwired for gcc. That's life. 
+
+
+
+                                        Comments Netcdf
+
+The netcdf library is included with this distribution.  The library is compiled in enable-C-only
+mode only so it may not be that useful for generic code.  So you can change the makefiles to
+point to a pre-existing netcdf library; however, you probably won't want to point to this library.
+

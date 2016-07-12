@@ -1,0 +1,27 @@
+#/bin/sh
+
+# make a tar image of wgrib2
+cd /export/wesley/wd51we
+
+g=g2clib-1.0.5
+j=jasper-1.900.1
+
+tar -cvzf /tmp/wgrib2.tgz grib2/wgrib2/*.h grib2/wgrib2/*.c grib2/wgrib2/README* \
+    grib2/wgrib2/API grib2/wgrib2/function.sh grib2/wgrib2/Changes grib2/wgrib2/*table \
+    grib2/$g/*.c grib2/$g/*.h grib2/$g/make*  grib2/$j.zip grib2/tar_all \
+    grib2/*.doc grib2/*.pdf grib2/wgrib2/LIC* grib2/wgrib2/*dat \
+    grib2/wgrib2/NEW_types grib2/makefile grib2/makefile_no_netcdf grib2/wgrib2/make* grib2/wgrib2/gribtab \
+    grib2/READ* grib2/INSTALLING grib2/netcdf.tar.gz
+
+echo "next"
+tar -cvf /tmp/wgrib2_aix.tar grib2/wgrib2/*.h grib2/wgrib2/*.c grib2/wgrib2/README* \
+    grib2/wgrib2/API grib2/wgrib2/function.sh grib2/wgrib2/Changes grib2/wgrib2/*table \
+    grib2/$g/*.c grib2/$g/*.h grib2/$g/make*  grib2/wgrib2/*.dat \
+    grib2/*.doc grib2/*.pdf grib2/wgrib2/LIC* \
+    grib2/wgrib2/NEW_types grib2/makefile grib2/wgrib2/make*
+
+
+[ $1 = 'test' ] && exit
+
+scp /tmp/wgrib2.tgz wd51we@rzdm:
+scp grib2/wgrib2/Changes wd51we@rzdm:ftp/wgrib2/

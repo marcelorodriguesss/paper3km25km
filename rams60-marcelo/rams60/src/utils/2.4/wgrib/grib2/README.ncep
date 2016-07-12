@@ -1,0 +1,9 @@
+Compiling wgrib2 on blue is different .. using NCO compiled libraries
+
+(0) make sure you have a fresh copy from ftpprd
+(1) tar -xvf wgrib2.tar
+(2) cd grib2/g2clib-1.0.2
+(3) make -f makefile.ncep
+(4) cd ../wgrib2
+(5) compile.ncep
+

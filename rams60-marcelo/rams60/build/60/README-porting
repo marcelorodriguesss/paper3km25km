@@ -1,0 +1,11 @@
+                   RAMS v6.0 - January 2006
+                   
+
+                     Porting instructions
+                     --------------------
+
+If you are reading this chances are that your machine does not have its own section
+in the include.mk files. Following are the considerations for porting RAMS to a 
+different machine type....
+
+TO BE COMPLETED...

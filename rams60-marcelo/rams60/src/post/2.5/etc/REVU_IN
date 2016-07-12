@@ -1,0 +1,113 @@
+!namelist
+!############################# Change Log ##################################
+! 2.3.1.1
+!
+! 010127 MJB REVU_IN ##
+!            Corrected pressure level options for IPLEVEL. ##
+! 001014 MJB REVU_IN ##
+!            Added namelist parameters REVPREF,IPANEL, LANDMARK and
+!            COLORS. ##
+!
+!###########################################################################
+
+! General full namelist for the RAMS REVU post processing package.
+
+ $CONTROL
+
+  ANPREF='anal/a-A',   ! Prefix for the file names
+
+  REVPREF='./',        ! Prefix for output file names
+
+  ANATYPE='SPACE',     ! Type of run
+                       !   SPACE= NCAR Graphics plots
+                       !   V5D=   create Vis5D files
+                       !   GRADS= create GrADS files
+                       !   GRIB=  create GRIB files
+                       !   DUMP=  dump 2 and 3D arrys
+                       !   GRAB=  grab point data
+                       !   STATS= do statistical comparisons
+ 
+  HEAD1='NY Test Run', ! Header line
+
+  IGRID(1)=0,          ! Grid(s)
+
+  IZTRAN(1)=1,         ! If horizontal slab
+                       !   1= terrain-following surface
+                       !   2= interpolate to Cartesian surface
+                       !   3= interpolate to pressure surface
+
+  IPLEVEL(1)=700,      ! If pressure surface, pressure level in mb
+                       !   Level must be one of the mandatory levels:
+                       !   1000,925,850,700,500,400,300,250,200,150,100
+  MAPFILL=1,           ! Map background 
+  IBACKGND=1,          ! Background color
+  IPLTINFO=1,          ! Information table
+  IPANEL=1,            ! Plots per panel
+
+                       ! Landmarks
+  LANDMARK(1)='/M0:b.03:t2:s1.:xyellow/L0:s.01:xyellow/',
+
+                       ! Re-map colors
+  COLORS(1)='/axis:yellow/title:rgb:.5:.5:.5/',
+ 
+                       ! Frame specification
+  TVAR(1)='/F/1:9:1/', !   time
+  ZVAR(1)='/F/2:2:1/', !   z coord  
+  YVAR(1)='/V/0:0:1/', !   y coord  
+  XVAR(1)='/H/0:0:1/', !   x coord
+
+                      ! Parameters
+  CFRAME_A(1)='/tempc/',
+  CFRAME_B(1)='/b/',
+  CFRAME_C(1)='/relhum/',
+
+ $END
+
+ $GRAB
+
+  GRABIN='./ralph_in', ! Input location filename
+                       
+  IGRABFMT=2,          ! Output data format
+                       !   1= text
+                       !   2= RALPH2
+
+ $END
+
+ $GLL
+      
+  IGRIDLL=1,           ! Lat-long grid specification
+                       !   0= specified below
+                       !   1= fits within RAMS grid
+                       !   2= contains the full RAMS
+                
+  GLLDLLAT=1.,         ! latitude grid point spacing
+  GLLDLLON=1.,         ! longitude grid point spacing
+  GLLWLON=-66.,        ! western edge of grid
+  GLLELON=-37.,        ! eastern edge of grid
+  GLLSLAT=-37.,        ! southern edge of grid
+  GLLNLAT=-15.,        ! northern edge of grid
+
+ $END
+
+ $STATS
+
+  CMODE='all',         ! Obs to process
+                       !   all=   surface and upper air
+                       !   sfc=   surface only
+                       !   rawin= upper air only
+                  
+                       ! Prefix for the file names
+  SFCPREF='./data/dp-s',
+  RWNPREF='./data/dp-r',
+  
+  NOQ='',              ! Quality control suffix for the file names
+                       !    -noq is tagged to the no qc data file if qc is done
+    
+                       ! switches for plotting: 0-off 1-on (not working yet)
+  IPDIFF=0,            ! plot difference of values, predicted-observed
+  IPVALS=0,            ! plot actual values, both predicted and observed
+  IPWIND=0,            ! plot winds comparison
+  IPHIST=0,            ! plot histograms of predicted-observed
+  IPCONT=0,            ! plot contour plots of predicted-observed difference
+
+ $END

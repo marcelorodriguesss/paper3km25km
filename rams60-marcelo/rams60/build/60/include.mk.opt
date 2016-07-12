@@ -1,0 +1,36 @@
+#Makefile include include.mk
+############################## Change Log ##################################
+#############################################################################
+
+MAKE=/usr/bin/make
+
+LIBUTILS=./utils/libutils-$(UTILS_VERSION)-opt.a
+
+NCARG_DIR=/home/desenvolv/rams60-marcelo/ncarg
+LIBNCARG=-L$(NCARG_DIR)/lib -lncarg -lncarg_gks -lncarg_c \
+         -L/usr/lib/x86_64-linux-gnu -lX11 -lpthread -ldl -lXau 
+
+HDF5_LIBS=-L/home/desenvolv/rams60-marcelo/hdf5/lib -lhdf5 -lz -lm
+HDF5_INCS=/home/desenvolv/rams60-marcelo/hdf5/include
+HDF5_DEFS=-DH5_USE_16_API
+
+CMACH=PC_LINUX1
+F_COMP=ifort
+F_OPTS=-march=native -O2 -DRAMS_SUPPORT -fPIC -fno-alias -prec-div -free -traceback -auto -ansi-alias  
+C_COMP=gcc
+C_OPTS=-march=native -O2 -DUNDERSCORE -DLITTLE 
+MOD_EXT=mod
+LOADER=ifort
+LOADER_OPTS=-i-static 
+
+LIBS=-L/home/rede/intel/lib/intel64 -lifcore  \
+     -L/usr/lib/gcc/x86_64-linux-gnu/4.4 -lgcc \
+     -L/home/rede/mpich2111p1/lib -lmpich
+ 
+ARCHIVE=ar rs
+
+MPI_PATH=/home/rede/mpich2111p1
+PAR_INCS=-I$(MPI_PATH)/include
+PAR_LIBS=-L$(MPI_PATH)/lib -lmpich 
+PAR_DEFS=-DRAMS_MPI
+

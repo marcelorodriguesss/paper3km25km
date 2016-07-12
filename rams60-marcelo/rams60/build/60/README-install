@@ -1,0 +1,178 @@
+                   RAMS v6.0 - January 2006
+                   
+
+                  Installation instructions
+                  -------------------------
+
+
+-------------------------------------------------------------------
+STEP 1: Install external libraries
+-------------------------------------------------------------------
+
+There are 3 external software packages that should be installed on the 
+machine on which RAMS is to be compiled. If you do not have these installed,
+follow the links below.
+
+Important NOTE for Linux users: If you download pre-compiled versions of 
+   any of these packages, YOU MUST DOWNLOAD THE VERSION WHICH MATCHES THE 
+   COMPILERS THAT YOU WILL BE USING FOR RAMS. It is frequently safest to 
+   download the source code and compile the libraries yourself.
+
+
+1) HDF5: http://hdf.ncsa.uiuc.edu/HDF5/release/obtain5.html
+
+   Most RAMS files are now using HDF5 format. Download the pre-compiled library 
+   for your computer/compiler, or download the source and compile yourself. Only 
+   the C libraries are needed, not the Fortran interface.
+
+   Note: Beta versions of v5.0x used NDVI files written in HDF4 format. These 
+         NDVI files are not compatible with v6.0. See Step 2 to download these
+         files in the HDF5 format.
+         
+         
+2) MPI:
+
+   If you do not have a parallel computer, you will want to compile 
+   a sequential executable (non-parallel) by NOT defining
+   -DRAMS_MPI in your include.mk file when you compile (see below). You will not 
+   need MPI libraries.
+   
+   If you have a parallel machine to use, you will want to compile with MPI
+   support.  The instructions to compile in parallel will vary depending
+   on your platform. We have found that there are mostly two ways
+   to execute:
+   
+   a) If you are compiling on a shared-memory machine 
+      (e.g., Sun, IBM, SGI, HP, etc.) using the 
+      manufacturer's version of MPI, you will need to 
+      consult their documentation as to the location of the libraries
+      and include files. These locations will be specified in the 
+      include.mk files.
+      
+   b) For most Linux machines (and many others), you will probably want to run 
+      the MPICH software from Argonne National Laboratory:
+      http://www-unix.mcs.anl.gov/mpi/mpich/index.html
+      
+      Only the source code is available for MPICH, so follow the instructions 
+      provided with MPICH for creating the libraries. Again, only the C libraries
+      are required for RAMS.
+      
+
+3) NCAR Graphics: http://ngwww.ucar.edu
+
+   Although not required for RAMS execution, there are a few debugging calls to 
+   NCAR Graphics that may exist in the code. This package is useful anyway for 
+   REVU execution, so it is more convenient to install it. If you really don't 
+   want to use NCAR Graphics, you may use the ncar_dummy.f90 in the utils 
+   source directory to create a "dummy" library.
+   
+   
+-------------------------------------------------------------------
+STEP 2: Access surface characteristic datasets
+-------------------------------------------------------------------
+
+There are several datasets that define surface characteristics which can be used 
+in a RAMS run. These are not strictly required; it is possible to configure a run 
+without them. However, the majority of applications will be configured for a real 
+world location, so datasets which define topography, sea surface temperature, 
+land use, soil type, and NDVI are usually used. 
+
+A standard set of data can be downloaded from: 
+   http://bridge.atmet.org/users/software.php.
+   
+   
+-------------------------------------------------------------------
+STEP 3: Access and extract tar files
+-------------------------------------------------------------------
+   
+The RAMS v6.0 source distribution can be obtained from:
+      http://bridge.atmet.org/users/software.php
+
+
+Un-tar the distribution file "rams60.tar.gz" into a top level directory. This top 
+level directory will be the RAMS_ROOT used in subsequent steps. The "src" and 
+"build" directories now exist under the RAMS_ROOT directory.
+
+   
+   
+-------------------------------------------------------------------
+STEP 4: Compile RAMS
+-------------------------------------------------------------------
+   
+   See the separate README-build file for some additional details of the build 
+   system.
+   
+   1) Go to the "build/60" directory.
+   
+   2) Edit the paths.mk file. Change the RAMS_ROOT variable to point to the 
+      top level directory (see Step 3).
+   
+   3) Edit the include.mk.opt file. Several things in this file need to be changed:
+      
+      a) NCAR Graphics library location - set NCARG_DIR to the directory 
+         which contains the libraries. Also note the -lpthread library, which some
+         Linux machines need for the X11 library. Some machines need this, 
+         some do not, some need other system libraries instead. 
+      b) HDF5 library location - set HDF5_LIBS to the correct load paths of your
+         HDF5 installation. Set HDF5_INCS to the directory where the C include file 
+         "hdf5.h" exists.
+      c) Machine-dependent options - locate the section that is closest to your
+         machine/compiler. Several variables must be set:
+         
+            CMACH - name of machine/compiler type. Used in a few source files
+               to conditionally compile code sections. If a section for your 
+               machine name doesn't exist, see the README-porting file.
+            
+            F_COMP - name of Fortran compiler
+            
+            F_OPTS - command line options for the Fortran compiler.
+                     DO NOT ASSUME THAT THE OPTIONS IN THE include.mk FILE ARE
+                     REQUIRED OR THE BEST OPTIONS, OR THAT THEY EVEN WORK!!!!!
+                     We do not have access to all machine types to test.
+            
+            C_COMP - name of C compiler
+            
+            C_OPTS - command line options for the C compiler
+            
+            LOADER - loader command to use for linking, usually the Fortran compiler.
+            
+            LOADER_OPTS - options for linking
+            
+            LIBS - any other libraries required for linking
+            
+            ARCHIVE - archive command to use. All except Sun probably use "ar rs".
+
+         Make sure a set of these variables are set correctly and uncommented.
+         
+      d) MPI location - PAR_INCS, PAR_LIBS and PAR_DEFS need to be set correctly. 
+         If not using MPI, these can be set to blank. If using MPI, make sure 
+         PAR_DEFS=-DRAMS_MPI and PAR_INCS and PAR_LIBS are correct. One group in
+         this section must be uncommented.
+         
+   4) Compile with the command:
+   
+         make OPT=opt (or just "make". It will default to "opt".)
+         
+      If all goes well, the executable "rams-6.0-opt" will be created. 
+      
+      If you want to make additional executables with different compile options,
+      see README-build, edit the appropriate include.mk, and give the 
+      command, for example, "make OPT=dbg".
+   
+-------------------------------------------------------------------
+STEP 4: Execute RAMS
+-------------------------------------------------------------------
+   
+The basic RAMS command line (for a non-parallel run) is:
+
+rams_exec -f namelist_file
+
+where rams_exec is the rams executable and namelist_file is the file name of the 
+input namelist file (e.g., RAMSIN.60). The defaul namelist_file name is "RAMSIN".
+
+THE SETTING IN THE DISTRIBUTED NAMELIST FILES SHOULD NOT BE CONSIDERED THE 
+"DEFAULT" VALUES. Each parameter in the namelists should be considered with
+every model configuration. See the v6.0 Namelist documentation.
+
+Further details of the execution will be included with the RAMS test run. 
+Check the web site for availability.

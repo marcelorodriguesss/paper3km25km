@@ -1,0 +1,64 @@
+                   REVU v2.5 - December 2004
+                   
+
+
+Build system
+------------                   
+                   
+This directory contains the build system for REVU v2.5. There are a 
+few changes from our previous systems which make it easier to build several
+executables with different sets of options.  The Makefile has been broken 
+into several parts and modified to allow for optional compilation options.
+
+For this build directory, there are 4 parts for the Makefile:
+
+- paths.mk - contains path definitions to the various code directories
+               (will need to be modified)
+
+- objects.mk - contains the definition of the source files to be compiled
+              
+- include.mk.* - contains library definitions and compiler option settings
+               (will need to be modified)
+
+- Makefile - main makefile which "include"s the objects.mk, paths.mk, and include.mk,
+             and performs the compilation
+
+
+Note that include.mk now has an additional filename 
+extension, .opt or .dbg. Other extensions could be used if desired.  
+The purpose is to be able to set different compilation options and 
+build the executables without having to completely recompile 
+everything when there is a change. For example, the 
+include.mk.opt contains the compiler options to compile in "optimized" mode,
+while include.mk.dbg compiles with the debug flags set. It also points to 
+the optimized and debug targets for the libraries to create and maintain two 
+sets.
+
+The user can then create as many of these sets as desired. For example:
+
+make OPT=dbg
+
+This will signify that include.mk.dbg will be included, the source 
+archive and executable will have "dbg" as part of the file name, and the library
+Makefiles will be called to generate the "dbg" version.
+
+Another change is that the libraries that will be used are created in 
+subdirectories of the main project build directory. The reason for this is to allow
+changes to the library code without affecting other projects that may be built.
+This is mostly useful when doing development or other code modifications. The 
+Makefile points to the directories where the libraries reside:
+
+LIBUTILS=./utils/libutils-$(UTILS_VERSION)-$(OPT).a
+
+and will also call the makefiles in these directories::
+
+
+$(LIBUTILS): FORCE
+	(cd ./utils ; $(MAKE) -f Make.utils.$(OPT) )
+
+If you change the location of the library directories, these references 
+must be changed.
+
+An additional include file will be added in the future to specify the source
+code dependencies. For now, make sure the recompile the entire code if any 
+changes are made to the F90 module files.

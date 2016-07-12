@@ -1,0 +1,35 @@
+#
+# wgrib2 rerequires g2c (NCEP C grib2), jasper (jpeg), z and png libraries
+#
+sh=/bin/sh
+
+INC=/nwpara/lib/sorc/g2c
+CFLAGS=-I ${INC} -O2 
+CC=ncepxlc
+CMD=wgrib2
+
+SRCS = Data.c Dump.c File.c Help.c Inv.c Latlon.c Level.c Macro.c Misc.c \
+       Process.c Range.c Scan.c Sec0.c Sec1.c Sec3.c Sec4.c Sec5.c Sec6.c \
+       cname.c fatal_error.c flt2ieee.c fnlist.c geo.c gribtab.c \
+       ieee2flt.c int8.c intpower.c missing.c rd_grib2_msg.c readgrib2.c \
+       seekgrib2.c wgrib2.c wrtieee.c
+OBJS = ${SRCS:.c=.o}
+
+HS = fnlist.h grb2.h wgrib2.h grib2.h
+
+LDFLAGS = -lm
+LIBS =  -L/nwpara/lib -lg2c  \
+        -L/usrx/local/64bit/lib -ljasper -lpng -lz
+
+
+all:	$(CMD)
+
+$(CMD):	$(OBJS) 
+	$(CC) $(LDFLAGS) -o $(@) $(OBJS) $(LIBS)
+
+$(OBJS):	$(SRCS) $(HS)
+	$(CC) $(CFLAGS) -c $<
+
+clean:
+	-rm -f $(OBJS)
+

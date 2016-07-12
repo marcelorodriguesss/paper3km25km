@@ -1,0 +1,31 @@
+!namelist
+ 
+ $CONTROL
+
+  ANPREF='./out/prevBR-A-',   ! Input filename prefix
+
+  REVPREF='./',        ! Output filename prefix
+
+  ANATYPE='DUMP',      ! Type of run
+
+  HEAD1='',            ! Header line
+
+  IGRID(1)=2,          ! Grid(s)
+
+  IZTRAN(1)=1,         ! If horizontal slab
+                       !   1= terrain-following surface
+                       !   2= interpolate to Cartesian surface
+                       !   3= interpolate to pressure surface
+
+                         ! Frame specification
+ TVAR(1)='/F/1:600:1/',  !   time
+ ZVAR(1)='/F/1:41:1/',  !   z coord
+ YVAR(1)='/V/1:222:1/', !   y coord
+ XVAR(1)='/H/1:222:1/', !   x coord
+                         ! Parameters
+
+!Variaveis 2D
+ CFRAME_A(1)='/totpcp/',       !precipitacao resolvida acumulada
+ CFRAME_A(2)='/sst/',
+
+ $END

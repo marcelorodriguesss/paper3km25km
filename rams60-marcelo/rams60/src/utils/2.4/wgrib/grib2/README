@@ -1,0 +1,37 @@
+Development directory of wgrib2
+
+
+example			samples of grib2 files (need more)
+
+g2libc-1.0.4		src code directory for g2libc
+g2libc-1.0.4.tar	original tar file from 
+			http://www.nco.ncep.noaa.gov/pmb/codes/GRIB2/
+
+jasper-1.700.5		src code directory for jasper (jpeg)
+jasper-1.700.5.zip	original zip file from internet
+
+netcdf-3.6.2		src code directory for netcdf
+netcdf.tar.gz		original tar file from UCAR
+
+wgrib2			wgrib2 development directory
+
+
+Preliminaries:
+
+   To compile the future wgrib2 (wgrib2.c), you need
+the following external libraries,
+
+	/usr/lib/libpng.a
+	/usr/lib/libz.a
+
+The latter two libraries are often installed on linux systems
+otherwise you will have to get them from the net.
+
+
+					Compiling
+
+
+    In the grib2 directory, type "make".  It works my linux box.  If everything goes well, 
+you can find the executable in wgrib2/wgrib2.
+
+

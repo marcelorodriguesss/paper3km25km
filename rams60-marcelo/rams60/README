@@ -1,0 +1,22 @@
+-----------------------------------------
+RAMS v6.0 and UTILS v2.2 - January 2006
+-----------------------------------------
+
+The directories contained here are:
+
+src - all source code
+
+build - new build system which separates each executable into "projects". 
+
+
+
+There are additional README files in "build" for further instructions.
+
+
+RAMS v6.0 is compatible with REVU 2.5. However, we will no longer 
+package REVU in the same tar file with the RAMS code, so if necessary, 
+please get the REVU tar file from:
+
+http://www.atmet.com/html/software.shtml
+
+

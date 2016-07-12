@@ -1,0 +1,135 @@
+                   REVU v2.5 - December 2004
+                   
+
+                  Installation instructions
+                  -------------------------
+
+
+-------------------------------------------------------------------
+STEP 1: Install external libraries
+-------------------------------------------------------------------
+
+There are 2 external software packages that should be installed on the 
+machine on which REVU is to be compiled. If you do not have these installed,
+follow the links below.
+
+Important NOTE for Linux users: If you download pre-compiled versions of 
+   any of these packages, YOU MUST DOWNLOAD THE VERSION WHICH MATCHES THE 
+   COMPILERS THAT YOU WILL BE USING FOR RAMS. It is frequently safest to 
+   download the source code and compile the libraries yourself.
+
+
+1) HDF5: http://hdf.ncsa.uiuc.edu/HDF5/release/obtain5.html
+
+   REVU v2.5 will process the RAMS v6.0 files which are now written in HDF5 format. 
+   Download the pre-compiled library 
+   for your computer/compiler, or download the source and compile yourself. Only 
+   the C libraries are needed, not the Fortran interface.
+         
+2) NCAR Graphics: http://ngwww.ucar.edu
+
+   Although not required for REVU execution (e.g., if you are creating GrADS or
+   VIS5D files), this package is useful anyway for 
+   REVU execution, so it is more convenient to install it. If you really don't 
+   want to use NCAR Graphics, you may use the ncar_dummy.f90 in the utils 
+   source directory to create a "dummy" library.
+   
+   Note: the latest versions of NCAR Graphics, v4.3 or higher, is required. The
+         high resolution RANGS map databases must also be installed. Please refer
+         to the NCAR Graphics documentation.
+      
+-------------------------------------------------------------------
+STEP 2: Access and extract tar files
+-------------------------------------------------------------------
+   
+The REVU v2.5 source distribution can be obtained from:
+      http://bridge.atmet.org/users/software.php
+
+
+Un-tar the distribution file "revu25.tar.gz" into a top level directory. This top 
+level directory will be the RAMS_ROOT used in subsequent steps. The "src" and 
+"build" directories now exist under the RAMS_ROOT directory. You can use the same 
+RAMS_ROOT as you did for the RAMS installation.
+
+   
+   
+-------------------------------------------------------------------
+STEP 3: Compile REVU
+-------------------------------------------------------------------
+   
+   See the separate README-build file for some additional details of the build 
+   system.
+   
+   1) Go to the "build/revu25" directory.
+   
+   2) Edit the paths.mk file. Change the RAMS_ROOT variable to point to the 
+      top level directory (see Step 2).
+      
+      Note: RAMS_VERSION is set to 5.02. Even if you are using v6.0, do NOT 
+            change the RAMS version number. The appropriate v5.02 files are
+            included in the src directory.
+   
+   3) Edit the include.mk.opt file. Several things in this file need to be changed:
+      
+      a) NCAR Graphics library location - set NCARG_DIR to the directory 
+         which contains the libraries. Also note the -lpthread library, which some
+         Linux machines need for the X11 library. Some machines need this, 
+         some do not, some need other system libraries instead. 
+      b) HDF5 library location - set HDF5_LIBS to the correct load paths of your
+         HDF5 installation. Set HDF5_INCS to the directory where the C include file 
+         "hdf5.h" exists.
+      c) Machine-dependent options - locate the section that is closest to your
+         machine/compiler. Several variables must be set:
+         
+            CMACH - name of machine/compiler type. Used in a few source files
+               to conditionally compile code sections. If a section for your 
+               machine name doesn't exist, see the README-porting file.
+            
+            F_COMP - name of Fortran compiler
+            
+            F_OPTS - command line options for the Fortran compiler.
+                     DO NOT ASSUME THAT THE OPTIONS IN THE include.mk FILE ARE
+                     REQUIRED OR THE BEST OPTIONS, OR THAT THEY EVEN WORK!!!!!
+                     We do not have access to all machine types to test.
+            
+            C_COMP - name of C compiler
+            
+            C_OPTS - command line options for the C compiler
+            
+            LOADER - loader command to use for linking, usually the Fortran compiler.
+            
+            LOADER_OPTS - options for linking
+            
+            LIBS - any other libraries required for linking
+            
+            ARCHIVE - archive command to use. All except Sun probably use "ar rs".
+
+         Make sure a set of these variables are set correctly and uncommented.
+         
+      d) MPI location - MPI is not used for REVU.
+         
+   4) Compile with the command:
+   
+         make OPT=opt
+         
+      If all goes well, the executable "revu-2.5-opt" will be created. 
+      
+      If you want to make additional executables with different compile options,
+      see README-build, edit the appropriate include.mk, and give the 
+      command, for example, "make OPT=dbg".
+   
+-------------------------------------------------------------------
+STEP 4: Execute REVU
+-------------------------------------------------------------------
+   
+The basic REVU command line (for a non-parallel run) is:
+
+revu_exec -f namelist_file
+
+where revu_exec is the revu executable and namelist_file is the file name of the 
+input namelist file (e.g., REVU_IN). The defaul namelist_file name is "REVU_IN".
+
+See the v2.5 Namelist documentation for a desciption of the namelist variables.
+
+Further details of the execution will be included with the REVU test run. 
+Check the web site for availability.
