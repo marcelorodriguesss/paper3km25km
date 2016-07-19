@@ -1,3 +1,7 @@
+sst/W*
+rams60-marcelo
+verification/*.npy
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
