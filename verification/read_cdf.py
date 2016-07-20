@@ -11,7 +11,7 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-resol = 3  # 3 ou 25
+resol = 25  # 3 ou 25
 
 if resol == 25:
     myvar = 'total_accum_precip'
@@ -25,6 +25,7 @@ else:
 res24 = np.full((59, nlats, nlons), np.nan)
 res48 = np.full((59, nlats, nlons), np.nan)
 res72 = np.full((59, nlats, nlons), np.nan)
+acc3d = np.full((59, nlats, nlons), np.nan)
 
 start_date = date(2009, 2, 1)
 end_date = date(2009, 4, 1)
@@ -38,19 +39,19 @@ for i, single_date in enumerate(daterange(start_date, end_date)):
 
     nc_data = Dataset(nc_path, 'r')
 
-    # latitude e longitudes 
+    # latitudes e longitudes 
     lats = nc_data.variables['y'][:]
     lons = nc_data.variables['x'][:]
 
-    # accum 24h
+    # accum 24h de 7h-7h
     pcp24a = nc_data.variables[myvar][10, ...]
     pcp24b = nc_data.variables[myvar][34, ...]
 
-    # accum 48h
+    # accum 48h de 7h-7h
     pcp48a = nc_data.variables[myvar][34, ...]
     pcp48b = nc_data.variables[myvar][58, ...]
 
-    # accum 72h
+    # accum 72h de 7h-7h
     pcp72a = nc_data.variables[myvar][58, ...]
     pcp72b = nc_data.variables[myvar][82, ...]
 
@@ -59,14 +60,17 @@ for i, single_date in enumerate(daterange(start_date, end_date)):
     res24[i, ...] = pcp24b - pcp24a
     res48[i, ...] = pcp48b - pcp48a
     res72[i, ...] = pcp72b - pcp72a
+    acc3d[i, ...] = res24[i, ...] + res48[i, ...] + res72[i, ...]
 
     name24 = 'pcp-rgkf-weeksst-{0}km-2009020100-24h'.format(resol)
     name48 = 'pcp-rgkf-weeksst-{0}km-2009020100-48h'.format(resol)
     name72 = 'pcp-rgkf-weeksst-{0}km-2009020100-72h'.format(resol)
+    name3d = 'pcp-rgkf-weeksst-{0}km-2009020100-acc3d'.format(resol)
 
     np.save(name24, res24)
     np.save(name48, res48)
     np.save(name72, res72)
+    np.save(name3d, acc3d)
 
 namelat = 'lats-{0}km'.format(resol)
 namelon = 'lons-{0}km'.format(resol)
