@@ -5,4 +5,17 @@ PASSO 2
 Fazer Thiessen das Macro Regioes do CE para as 
 estacoes do CE e RAMS6.
 
+== Metodologia ==
+
+       DIA          PREV                      OBS (PCDs FUNCEME)
+24h -> 200902010000 200902010700-200902020700 200902020700
+
+A PREV possui o acumulado das ultimas 24h do dia 20090202 as 7h
+O OBS  possui o acumulado das ultimas 24h do dia 20090202 as 7h
+
+Logo...
+ 
+24h -> 200902010000 200902010700-200902020700 200902020700
+48h -> 200902010000 200902020700-200902030700 200902030700
+27h -> 200902010000 200902030700-200902040700 200902040700
 
