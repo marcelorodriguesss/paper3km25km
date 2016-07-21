@@ -15,7 +15,7 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-resol = 3  # 3 ou 25
+resol = 25  # 3 ou 25
 if resol == 25:
     myvar = 'total_accum_precip'
     nlats, nlons = 103, 103
@@ -38,7 +38,6 @@ for i, single_date in enumerate(daterange(start_date, end_date)):
     nc_path = "/mnt/hdext/002/marcelo/cdfpaper/{2}/{0}km/pcp.rgkf.{1}00.{0}km.cdf"\
         .format(resol, single_date.strftime("%Y%m%d"),
                 single_date.strftime("%Y"))
-
 
     if single_date in daysmiss:
 
@@ -78,14 +77,15 @@ for i, single_date in enumerate(daterange(start_date, end_date)):
         res72[i, ...] = pcp72b - pcp72a
         acc3d[i, ...] = res24[i, ...] + res48[i, ...] + res72[i, ...]
 
-name24 = 'pcp-rgkf-weeksst-{0}km-{1}020200-24h'\
+name24 = 'pcp-rgkf-weeksst-{0}km-{1}020200-{1}060100-24h'\
     .format(resol, single_date.strftime("%Y"))
-name48 = 'pcp-rgkf-weeksst-{0}km-{1}020300-48h'\
+name48 = 'pcp-rgkf-weeksst-{0}km-{1}020300-{1}060200-48h'\
     .format(resol, single_date.strftime("%Y"))
-name72 = 'pcp-rgkf-weeksst-{0}km-{1}020400-72h'\
+name72 = 'pcp-rgkf-weeksst-{0}km-{1}020400-{1}060300-72h'\
     .format(resol, single_date.strftime("%Y"))
-name3d = 'pcp-rgkf-weeksst-{0}km-{1}020400-acc3d'\
+name3d = 'pcp-rgkf-weeksst-{0}km-{1}020400-{1}060300-acc3d'\
     .format(resol, single_date.strftime("%Y"))
+
 np.save(name24, res24)
 np.save(name48, res48)
 np.save(name72, res72)
@@ -93,6 +93,7 @@ np.save(name3d, acc3d)
 
 namelat = 'lats-{0}km'.format(resol)
 namelon = 'lons-{0}km'.format(resol)
+
 np.save(namelat, lats)
 np.save(namelon, lons)
 
