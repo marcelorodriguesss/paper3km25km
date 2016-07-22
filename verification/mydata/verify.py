@@ -13,14 +13,17 @@ obs = np.load(fobs)
 
 print mod.shape, obs.shape
 
-ct_a, ct_b, ct_c, ct_d = vw.contingency_table(obs[0, :], mod[0, :], [1])
+tp, fp, tn, fn = \
+    vw.cont_table(np.where(obs[0, :] >= 0., obs[0, :], np.nan),
+                  np.where(mod[0, :] >= 0., mod[0, :], np.nan),
+                  1.)
 
-print ct_a
-print ct_b
-print ct_c
-print ct_d
+print tp
+print fp
+print tn
+print fn
 
-res = vw.bias(ct_a, ct_b, ct_c)
+res = vw.bias(tp, fp, tn)
 
 print res
 
