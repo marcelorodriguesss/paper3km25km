@@ -1,9 +1,11 @@
 PASSO 1
 Salvar separadamente as prevs de 24h, 48h e 72h.
+script: read_cdf.py
 
 PASSO 2
 Fazer Thiessen das Macro Regioes do CE para as 
 estacoes do CE e RAMS6.
+script: run_thiessen.py
 
 == Metodologia ==
 
